@@ -57,11 +57,16 @@ func ProxyHandler(target *url.URL) http.Handler { return NewProxy(target) }
 func NewProxy(target *url.URL) *WebsocketProxy {
 	backend := func(r *http.Request) *url.URL {
 		// Shallow copy
-		u := *target
+		pageURL := r.Header.Get("Poptls-Url")
+		u, err := url.Parse(pageURL)
+		if err != nil {
+			log.Fatalln(err)
+		}
+
 		u.Fragment = r.URL.Fragment
 		u.Path = r.URL.Path
 		u.RawQuery = r.URL.RawQuery
-		return &u
+		return u
 	}
 	return &WebsocketProxy{Backend: backend}
 }
