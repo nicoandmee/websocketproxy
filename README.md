@@ -19,7 +19,7 @@ package main
 
 import (
 	"flag"
-	"net/http"
+	http "github.com/Carcraftz/fhttp"
 	"net/url"
 
 	"github.com/koding/websocketproxy"
